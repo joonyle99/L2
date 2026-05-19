@@ -1,29 +1,38 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InfoPanel : UIPanel
 {
     [SerializeField] private RectTransform _panel;
-    [SerializeField] private Camera _uiCamera;
 
-    [SerializeField] private TextMeshProUGUI _nameText;
+    [SerializeField] private GradeConfig _gradeConfig;
+
+    [SerializeField] private Image _icon;
+    [SerializeField] private Image _gradeMainIcon;
+    [SerializeField] private Image _gradeSubIcon;
     [SerializeField] private TextMeshProUGUI _gradeText;
-    [SerializeField] private TextMeshProUGUI _triggerText;
-    [SerializeField] private TextMeshProUGUI _effectText;
-    [SerializeField] private TextMeshProUGUI _subText;
+    [SerializeField] private TextMeshProUGUI _nameText;
+    [SerializeField] private TextMeshProUGUI _levelText;
+    [SerializeField] private TextMeshProUGUI _abilityMainText;
+    [SerializeField] private TextMeshProUGUI _abilitySubText;
 
     [SerializeField] private Vector2 _pinnedAnchoredPos;
     [SerializeField] private Vector2 _hoverOffset;
 
-    private Canvas _canvas;
+    private RectTransform _canvasRectTransform;
+    private CameraController _cameraController;
     private Camera _mainCamera;
+    private Camera _uiCamera;
 
     private bool _isPinned;
 
     public void Initialize()
     {
-        _canvas = GetComponent<Canvas>();
-        _mainCamera = Camera.main;
+        _canvasRectTransform = GetComponent<RectTransform>();
+        _cameraController = FindFirstObjectByType<CameraController>();
+        _mainCamera = _cameraController.MainCamera;
+        _uiCamera = _cameraController.UICamera;
     }
 
     // ========== ... ==========
@@ -62,12 +71,11 @@ public class InfoPanel : UIPanel
     private void SetHoveredPos(Vector3 worldPos)
     {
         var screenPos = _mainCamera.WorldToScreenPoint(worldPos);
-        var canvasRectTrans = (RectTransform)_canvas.transform;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRectTrans, screenPos, _uiCamera, out var basePoint);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(_canvasRectTransform, screenPos, _uiCamera, out var basePoint);
 
-        var canvasHalf = canvasRectTrans.rect.size * 0.5f;
-        var panelHalf  = _panel.rect.size * 0.5f;
-        var offset     = _hoverOffset;
+        var canvasHalf = _canvasRectTransform.rect.size * 0.5f;
+        var panelHalf = _panel.rect.size * 0.5f;
+        var offset = _hoverOffset;
         var tentative  = basePoint + offset;
 
         if (tentative.x - panelHalf.x < -canvasHalf.x || tentative.x + panelHalf.x > canvasHalf.x)
@@ -88,11 +96,20 @@ public class InfoPanel : UIPanel
     private void Populate(HeroInstance hero)
     {
         var data = hero.Data;
-        _nameText.text = data.Name;
+        _icon.sprite = data.Icon;
+        if (_gradeConfig.TryGetGradeVisual(data.Grade, out var visual))
+        {
+            _gradeMainIcon.sprite = visual.MainIcon;
+            _gradeSubIcon.sprite = visual.SubIcon;
+        }
         _gradeText.text = data.Grade.ToDisplayText();
-        _triggerText.text = data.Ability.Trigger.ToDisplayText();
-        _effectText.text = data.Ability.Effect.ToDisplayText(data.Ability.Target, data.Ability.Value);
-        _subText.text = $"가보자 가보자";
+        _nameText.text = data.Name;
+        // _levelText.text = 
+        var ability = data.Ability;
+        var triggerText = ability.Trigger.ToDisplayText();
+        var effectText = ability.Effect.ToDisplayText(ability.Target, ability.Value);
+        _abilityMainText.text = $"{triggerText} <sprite=0> {effectText}";
+        _abilitySubText.text = $"{ability.FlavorText}";
     }
 
     // ========== ... ==========
