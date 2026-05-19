@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dba8cbe1c087b64d93282040cbb94f9, type: 3}
   m_Name: HeroData_03_WaterElemental
   m_EditorClassIdentifier: Assembly-CSharp::HeroData
-  Name: "\uBB3C\uC758 \uC815\uB839"
+  Icon: {fileID: 8637171779380458254, guid: f1e90618fe5590c43af3b339af97e849, type: 3}
+  Name: "\uBB3C\uC758\uC815\uB839"
   Prefab: {fileID: 6903736180131287835, guid: 47a637f75164006448b068be98863740, type: 3}
   BaseAttack: 10
   BaseHealth: 10
@@ -22,3 +23,4 @@ MonoBehaviour:
     Effect: 0
     Target: 0
     Value: 5
+    FlavorText: "\uBD80\uC5F0 \uC124\uBA85\uC785\uB2C8\uB2E4"

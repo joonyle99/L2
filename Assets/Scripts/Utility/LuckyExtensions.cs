@@ -2,7 +2,7 @@ public static class LuckyExtensions
 {
     public static string ToDisplayText(this HeroGrade grade) => grade switch
     {
-        HeroGrade.Basic     => "일반",
+        HeroGrade.Normal    => "일반",
         HeroGrade.Rare      => "레어",
         HeroGrade.Epic      => "영웅",
         HeroGrade.Legendary => "전설",

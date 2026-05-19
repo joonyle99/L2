@@ -40,4 +40,5 @@ public struct AbilityData
     public AbilityEffect Effect; // 능력 효과
     public AbilityTarget Target; // 효과 대상
     public int Value; // 효과 수치
+    public string FlavorText; // 부연 설명
 }

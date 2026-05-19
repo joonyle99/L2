@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dba8cbe1c087b64d93282040cbb94f9, type: 3}
   m_Name: HeroData_02_Barbarian
   m_EditorClassIdentifier: Assembly-CSharp::HeroData
+  Icon: {fileID: 7741045162260436947, guid: 4ac762eceb406964ba8f82dcf107c4f8, type: 3}
   Name: "\uC57C\uB9CC\uC778"
   Prefab: {fileID: 1495754066363910034, guid: 8ff61a249fcc8e5449254f7f96de9087, type: 3}
   BaseAttack: 10
@@ -22,3 +23,4 @@ MonoBehaviour:
     Effect: 0
     Target: 0
     Value: 5
+    FlavorText: "\uBD80\uC5F0 \uC124\uBA85\uC785\uB2C8\uB2E4"

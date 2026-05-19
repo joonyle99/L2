@@ -2,7 +2,7 @@ using UnityEngine;
 
 public enum HeroGrade
 {
-    Basic, // 일반
+    Normal, // 일반
     Rare, // 레어
     Epic, // 영웅
     Legendary, // 전설
