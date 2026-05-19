@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 813097801239471240}
   - component: {fileID: 4799345774497862862}
   m_Layer: 0
-  m_Name: Hero_WaterElemental
+  m_Name: Hero_03_WaterElemental
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

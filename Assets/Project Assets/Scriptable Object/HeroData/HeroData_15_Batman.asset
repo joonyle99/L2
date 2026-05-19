@@ -10,15 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6dba8cbe1c087b64d93282040cbb94f9, type: 3}
-  m_Name: HeroData_09
+  m_Name: HeroData_15_Batman
   m_EditorClassIdentifier: Assembly-CSharp::HeroData
-  Name: "\uC601\uC6C5 9"
+  Icon: {fileID: 0}
+  Name: "\uBC30\uD2B8\uB9E8"
+  Prefab: {fileID: 0}
   BaseAttack: 10
   BaseHealth: 10
-  Grade: 2
+  Grade: 4
   Ability:
     Trigger: 0
     Effect: 0
     Target: 0
     Value: 5
-  BodyPrefab: {fileID: 1785155941111871548, guid: d66110490c839044c97846ffe6f83c49, type: 3}
+    FlavorText: "\uBD80\uC5F0 \uC124\uBA85\uC785\uB2C8\uB2E4"

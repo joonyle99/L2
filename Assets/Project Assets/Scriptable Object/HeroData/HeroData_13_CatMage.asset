@@ -10,15 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6dba8cbe1c087b64d93282040cbb94f9, type: 3}
-  m_Name: HeroData_04
+  m_Name: HeroData_13_CatMage
   m_EditorClassIdentifier: Assembly-CSharp::HeroData
-  Name: "\uC601\uC6C5 4"
+  Icon: {fileID: 0}
+  Name: "\uB0E5\uBC95\uC0AC"
+  Prefab: {fileID: 0}
   BaseAttack: 10
   BaseHealth: 10
-  Grade: 1
+  Grade: 4
   Ability:
     Trigger: 0
     Effect: 0
     Target: 0
     Value: 5
-  BodyPrefab: {fileID: 1542160269181157259, guid: 1e950f9d28b5dec4e9ac2b6b30795c95, type: 3}
+    FlavorText: "\uBD80\uC5F0 \uC124\uBA85\uC785\uB2C8\uB2E4"

@@ -10,15 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6dba8cbe1c087b64d93282040cbb94f9, type: 3}
-  m_Name: HeroData_08
+  m_Name: HeroData_12_TigerMaster
   m_EditorClassIdentifier: Assembly-CSharp::HeroData
-  Name: "\uC601\uC6C5 8"
+  Icon: {fileID: 0}
+  Name: "\uD638\uB791\uC774\uC0AC\uBD80"
+  Prefab: {fileID: 0}
   BaseAttack: 10
   BaseHealth: 10
-  Grade: 2
+  Grade: 3
   Ability:
     Trigger: 0
     Effect: 0
     Target: 0
     Value: 5
-  BodyPrefab: {fileID: 3791117347390285369, guid: 7da57acf5c8581c4da773a7bd8d2e070, type: 3}
+    FlavorText: "\uBD80\uC5F0 \uC124\uBA85\uC785\uB2C8\uB2E4"

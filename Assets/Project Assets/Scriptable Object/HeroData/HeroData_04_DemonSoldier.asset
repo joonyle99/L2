@@ -10,9 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6dba8cbe1c087b64d93282040cbb94f9, type: 3}
-  m_Name: HeroData_06
+  m_Name: HeroData_04_DemonSoldier
   m_EditorClassIdentifier: Assembly-CSharp::HeroData
-  Name: "\uC601\uC6C5 6"
+  Icon: {fileID: -1584349957734450258, guid: 36d8c17b40e50c14dbf42e7d40508d6d, type: 3}
+  Name: "\uC545\uB9C8\uBCD1\uC0AC"
+  Prefab: {fileID: 6903736180131287835, guid: 58b6ee23da246ea48898c227e3a25886, type: 3}
   BaseAttack: 10
   BaseHealth: 10
   Grade: 1
@@ -21,4 +23,4 @@ MonoBehaviour:
     Effect: 0
     Target: 0
     Value: 5
-  BodyPrefab: {fileID: 2500343688644821939, guid: 268669627b8caed489194fb59e6dc3e3, type: 3}
+    FlavorText: "\uBD80\uC5F0 \uC124\uBA85\uC785\uB2C8\uB2E4"
