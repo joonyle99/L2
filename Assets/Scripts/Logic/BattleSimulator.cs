@@ -1,18 +1,84 @@
-using UnityEngine;
-
 public class BattleSimulator
 {
-    // TODO: 내 스쿼드와 상대 스쿼드 데이터를 토대로 전투 타임라인을 계산하고 그 결과를 저장한다
-    // 결정론적 계산 = 전투 시작 순간에 "누가 언제 뭘 한다"는 전체 시나리오를 미리 다 계산해두는 것
-    // 그 다음 시각 재생은 그 시나리오를 그냥 "틀어주는" 역할만 함 (BattlePlayer의 역할)
+    private const float AttackInterval = 1.5f;
+    // 같은 라운드 내에서 플레이어 공격 먼저, 적 공격은 절반 뒤
+    private const float EnemyAttackOffset = 0.5f;
+    private const int MaxRounds = 100; // 무한루프 방지
 
-    public void Initialize()
+    // 선계산: 입력된 양 진영 BattleHero를 라운드 단위로 싸워서 타임라인 반환
+    // 원본 BattleHero의 CurrHealth가 소모되므로, 호출 전 복사본을 넘겨야 함
+    public BattleTimeline Simulate(BattleHero[] playerSide, BattleHero[] enemySide)
     {
+        var timeline = new BattleTimeline();
 
-    }
+        for (int round = 0; round < MaxRounds; round++)
+        {
+            if (!HasAlive(playerSide) || !HasAlive(enemySide)) break;
 
-    public void Simulate()
-    {
+            float roundTime = round * AttackInterval;
+
+            // 플레이어 → 적
+            foreach (var attacker in playerSide)
+            {
+                if (!IsActive(attacker)) continue;
+                var target = FindFirstAlive(enemySide);
+                if (target == null) break;
+                RecordAttack(timeline, roundTime, attacker, target);
+            }
+
+            // 적 → 플레이어 (같은 라운드 안에서 살짝 뒤)
+            foreach (var attacker in enemySide)
+            {
+                if (!IsActive(attacker)) continue;
+                var target = FindFirstAlive(playerSide);
+                if (target == null) break;
+                RecordAttack(timeline, roundTime + EnemyAttackOffset, attacker, target);
+            }
+        }
+
+        timeline.PlayerWon = HasAlive(playerSide);
         
+        return timeline;
     }
+
+    private void RecordAttack(BattleTimeline timeline, float time, BattleHero attacker, BattleHero target)
+    {
+        int damage = attacker.CurrAttack;
+        target.CurrHealth -= damage;
+
+        timeline.Events.Add(new BattleEvent
+        {
+            Time = time,
+            Type = BattleEventType.Attack,
+            Attacker = attacker,
+            Target = target,
+            Damage = damage,
+        });
+
+        if (!target.IsAlive)
+        {
+            timeline.Events.Add(new BattleEvent
+            {
+                Time = time,
+                Type = BattleEventType.Death,
+                Target = target,
+            });
+        }
+    }
+
+    private bool HasAlive(BattleHero[] side)
+    {
+        foreach (var h in side)
+            if (h != null && h.IsAlive) return true;
+        return false;
+    }
+
+    private BattleHero FindFirstAlive(BattleHero[] side)
+    {
+        foreach (var h in side)
+            if (h != null && h.IsAlive) return h;
+        return null;
+    }
+
+    private bool IsActive(BattleHero h) => h != null && h.IsAlive;
 }

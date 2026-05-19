@@ -42,10 +42,10 @@ public class InGameManager : MonoBehaviour
     [SerializeField] private Canvas _battleCanvas;
     [SerializeField] private GameObject _battleStage;
     [SerializeField] private RoundTable _roundTable;
+    [SerializeField] private BattlePlayer _battlePlayer;
     private BattleManager _battleManager;
     private RoundManager _roundManager;
     private BattleSimulator _battleSimulator;
-    private BattlePlayer _battlePlayer;
 
     private void Start()
     {
@@ -100,9 +100,7 @@ public class InGameManager : MonoBehaviour
         _battleSimulator = new BattleSimulator();
         _battleManager = new BattleManager();
         _roundManager = new RoundManager(_roundTable);
-        // _battleSimulator.Initialize();
-        // _battlePlayer.Initialize();
-        // _battleManager.Initialize(_battleSimulator, _battlePlayer);
+        _battleManager.Initialize(_battleSimulator, _battlePlayer, OnBattleEnd);
         _roundManager.Initialize(_ => _summonManager.ResetCost());
         _uiController.Initialize(() => _summonManager.TrySummon(0), Battle);
         _goldSystem.Initialize(_uiController.SetGoldText);
@@ -123,19 +121,24 @@ public class InGameManager : MonoBehaviour
 
     private void OnStateChanged(InGameState prev, InGameState curr)
     {
-        if (curr == InGameState.Battle)
-        {
-            var playerHeroes = _squadManager.Bench.Where(pHero => pHero != null).ToArray();
-
-            var currRoundData = _roundManager.GetCurrRoundData();
-            var enemyHeroes = currRoundData.enemyHeroes.Select(eHero => new HeroInstance(eHero.data, eHero.level)).ToArray();
-            // _battleManager
-        }
-        
         _prepareCanvas?.gameObject.SetActive(curr == InGameState.Prepare);
         _prepareStage?.SetActive(curr == InGameState.Prepare);
         _battleCanvas?.gameObject.SetActive(curr == InGameState.Battle);
         _battleStage?.SetActive(curr == InGameState.Battle);
+
+        if (curr == InGameState.Battle)
+        {
+            var playerHeroes = _squadManager.Bench.Where(h => h != null).ToArray();
+            var roundData = _roundManager.GetCurrRoundData();
+            var enemyHeroes = roundData.enemyHeroes.Select(e => new HeroInstance(e.data, e.level)).ToArray();
+            _battleManager.StartBattle(playerHeroes, enemyHeroes);
+        }
+    }
+
+    private void OnBattleEnd()
+    {
+        _roundManager.NextRound();
+        Prepare();
     }
 
     // ========== 연출 ==========
