@@ -14,6 +14,8 @@ public class InGameManager : MonoBehaviour
     [Space]
 
     [Header("1- Prepare Phase")]
+    [SerializeField] private Canvas _prepareCanvas;
+    [SerializeField] private GameObject _prepareStage;
     [SerializeField] private HeroDatabase _heroDatabase;
     [SerializeField] private RelicDatabase _relicDatabase;
     [SerializeField] private SummonTable _summonTable;
@@ -36,6 +38,8 @@ public class InGameManager : MonoBehaviour
     [Space]
     
     [Header("2 - Battle Phase")]
+    [SerializeField] private Canvas _battleCanvas;
+    [SerializeField] private GameObject _battleStage;
     [SerializeField] private RoundTable _roundTable;
     private BattleManager _battleManager;
     private RoundManager _roundManager;
@@ -47,10 +51,11 @@ public class InGameManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        _gameStateController.OnStateChanged -= OnStateChanged;
+        _gameStateController.OnStateChanged -= _prepareTimer.OnStateChanged;
         _gameStateController.OnStateChanged -= _cameraController.OnStateChanged;
         _gameStateController.OnStateChanged -= _uiController.OnStateChanged;
         if (SoundManager.Instance != null) _gameStateController.OnStateChanged -= SoundManager.Instance.OnStateChanged;
-        _gameStateController.OnStateChanged -= _prepareTimer.OnStateChanged;
     }
 
     private void Update()
@@ -88,18 +93,34 @@ public class InGameManager : MonoBehaviour
             () => { _prepareManager.SuppressHoverPanel = false; infoPanel.HideHover(); });
         _relicSlotController.Initialize(_relicManager);
         _prepareManager.Initialize(_summonManager, _squadManager, _relicManager, _summonSlotController, _squadSlotController, _relicSlotController, _heroSellZone, () => _goldSystem.AddGold(_squadConfig.sellPrice), infoPanel.ShowPinned, infoPanel.Unpin);
-        _prepareTimer.Initialize(_uiController.SetTimerText, null);
+        _prepareTimer.Initialize(_uiController.SetTimerText, Battle);
         _battleManager = new BattleManager();
         _roundManager = new RoundManager(_roundTable);
         _battleManager.Initialize();
         _roundManager.Initialize(_ => _summonManager.ResetCost());
-        _uiController.Initialize(() => _summonManager.TrySummon(0), null);
+        _uiController.Initialize(() => _summonManager.TrySummon(0), Battle);
         _goldSystem.Initialize(_uiController.SetGoldText);
         if (SoundManager.Instance != null) _gameStateController.OnStateChanged += SoundManager.Instance.OnStateChanged;
         _gameStateController.OnStateChanged += _uiController.OnStateChanged;
         _gameStateController.OnStateChanged += _cameraController.OnStateChanged;
         _gameStateController.OnStateChanged += _prepareTimer.OnStateChanged;
+        _gameStateController.OnStateChanged += OnStateChanged;
         _gameStateController.ChangeState(InGameState.Prepare);
+    }
+
+    // ========== 상태 전환 ==========
+
+    public void Prepare() => _gameStateController.ChangeState(InGameState.Prepare);
+    public void Battle() => _gameStateController.ChangeState(InGameState.Battle);
+    public void Result() => _gameStateController.ChangeState(InGameState.Result);
+    public void MatchEnd() => _gameStateController.ChangeState(InGameState.MatchEnd);
+
+    private void OnStateChanged(InGameState prev, InGameState curr)
+    {
+        _prepareCanvas?.gameObject.SetActive(curr == InGameState.Prepare);
+        _prepareStage?.SetActive(curr == InGameState.Prepare);
+        _battleCanvas?.gameObject.SetActive(curr == InGameState.Battle);
+        _battleStage?.SetActive(curr == InGameState.Battle);
     }
 
     // ========== 연출 ==========
