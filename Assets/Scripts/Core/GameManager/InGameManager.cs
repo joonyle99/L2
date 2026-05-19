@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class InGameManager : MonoBehaviour
 {
@@ -43,6 +44,8 @@ public class InGameManager : MonoBehaviour
     [SerializeField] private RoundTable _roundTable;
     private BattleManager _battleManager;
     private RoundManager _roundManager;
+    private BattleSimulator _battleSimulator;
+    private BattlePlayer _battlePlayer;
 
     private void Start()
     {
@@ -94,9 +97,12 @@ public class InGameManager : MonoBehaviour
         _relicSlotController.Initialize(_relicManager);
         _prepareManager.Initialize(_summonManager, _squadManager, _relicManager, _summonSlotController, _squadSlotController, _relicSlotController, _heroSellZone, () => _goldSystem.AddGold(_squadConfig.sellPrice), infoPanel.ShowPinned, infoPanel.Unpin);
         _prepareTimer.Initialize(_uiController.SetTimerText, Battle);
+        _battleSimulator = new BattleSimulator();
         _battleManager = new BattleManager();
         _roundManager = new RoundManager(_roundTable);
-        _battleManager.Initialize();
+        // _battleSimulator.Initialize();
+        // _battlePlayer.Initialize();
+        // _battleManager.Initialize(_battleSimulator, _battlePlayer);
         _roundManager.Initialize(_ => _summonManager.ResetCost());
         _uiController.Initialize(() => _summonManager.TrySummon(0), Battle);
         _goldSystem.Initialize(_uiController.SetGoldText);
@@ -117,6 +123,15 @@ public class InGameManager : MonoBehaviour
 
     private void OnStateChanged(InGameState prev, InGameState curr)
     {
+        if (curr == InGameState.Battle)
+        {
+            var playerHeroes = _squadManager.Bench.Where(pHero => pHero != null).ToArray();
+
+            var currRoundData = _roundManager.GetCurrRoundData();
+            var enemyHeroes = currRoundData.enemyHeroes.Select(eHero => new HeroInstance(eHero.data, eHero.level)).ToArray();
+            // _battleManager
+        }
+        
         _prepareCanvas?.gameObject.SetActive(curr == InGameState.Prepare);
         _prepareStage?.SetActive(curr == InGameState.Prepare);
         _battleCanvas?.gameObject.SetActive(curr == InGameState.Battle);

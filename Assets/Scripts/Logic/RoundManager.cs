@@ -13,7 +13,7 @@ public class RoundManager
     public RoundManager(RoundTable roundTable)
     {
         _roundTable = roundTable;
-        _currRound = 0;
+        _currRound = 1;
     }
     
     public void Initialize(Action<int> onRoundChanged)
@@ -28,7 +28,7 @@ public class RoundManager
         _onRoundChanged?.Invoke(_currRound);
     }
 
-    public RoundData GetCurrentRoundData()
+    public RoundData GetCurrRoundData()
     {
         return _roundTable.GetRoundData(_currRound);
     }
@@ -37,5 +37,4 @@ public class RoundManager
     {
         _currRound = 0;
     }
-
 }

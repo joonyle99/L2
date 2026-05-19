@@ -5,7 +5,7 @@ using System.Collections.Generic;
 [System.Serializable]
 public class EnemyHeroEntry
 {
-    public HeroData enemyHeroData;
+    public HeroData data;
     public int level;
 }
 

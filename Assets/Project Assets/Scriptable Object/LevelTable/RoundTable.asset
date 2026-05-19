@@ -13,6 +13,14 @@ MonoBehaviour:
   m_Name: RoundTable
   m_EditorClassIdentifier: Assembly-CSharp::RoundTable
   _rounds:
-  - enemyHeroes: []
+  - enemyHeroes:
+    - enemyHeroData: {fileID: 0}
+      level: 0
+    - enemyHeroData: {fileID: 0}
+      level: 0
+    - enemyHeroData: {fileID: 0}
+      level: 0
+    - enemyHeroData: {fileID: 0}
+      level: 0
   - enemyHeroes: []
   - enemyHeroes: []

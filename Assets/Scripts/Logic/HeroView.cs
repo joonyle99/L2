@@ -17,8 +17,8 @@ public class HeroView : ItemView
 
     public void Refresh()
     {
-        _heroStats.SetAttackText(_heroInstance.CurrAttack);
-        _heroStats.SetHealthText(_heroInstance.CurrHealth);
+        _heroStats.SetAttackText(_heroInstance.Attack);
+        _heroStats.SetHealthText(_heroInstance.Health);
     }
 
     public void Clear()

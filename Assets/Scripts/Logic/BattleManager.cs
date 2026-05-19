@@ -2,8 +2,12 @@ using UnityEngine;
 
 public class BattleManager
 {
-    public void Initialize()
+    private BattleSimulator _battleSimulator;
+    private BattlePlayer _battlePlayer;
+
+    public void Initialize(BattleSimulator battleSimulator, BattlePlayer battlePlayer)
     {
-        
+        _battleSimulator = battleSimulator;
+        _battlePlayer = battlePlayer;
     }
 }
