@@ -14,13 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RoundTable
   _rounds:
   - enemyHeroes:
-    - enemyHeroData: {fileID: 0}
-      level: 0
-    - enemyHeroData: {fileID: 0}
-      level: 0
-    - enemyHeroData: {fileID: 0}
-      level: 0
-    - enemyHeroData: {fileID: 0}
-      level: 0
-  - enemyHeroes: []
-  - enemyHeroes: []
+    - data: {fileID: 11400000, guid: 7a8dc1bbfcd05124b846f010ad172cfd, type: 2}
+      level: 1
+    - data: {fileID: 11400000, guid: 034ae38286bda8946a0eaa10c40df35a, type: 2}
+      level: 1
+    - data: {fileID: 11400000, guid: 976184232c1fc804cb116a1783d4ffb1, type: 2}
+      level: 1
